@@ -16,10 +16,7 @@ const geistMono = localFont({
 
 export const metadata = {
   title: "Alexis GERMAIN",
-  description: "Web Developer",
-  icons: {
-    icon: "/icon.png",
-  },
+  description: "Alexis GERMAIN - Web Developer based in Paris, France",
 };
 
 export default function RootLayout({ children }) {

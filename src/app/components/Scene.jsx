@@ -26,17 +26,14 @@ export default function Scene() {
         </Plane>
         <color attach='background' args={["#e9ecef"]} />
         <ResponsiveGroup textSize={16} />
-
         <Lumos />
       </Canvas>
     </>
   );
 }
-
-// Responsive Group Component with scale based on viewport width
 function ResponsiveGroup() {
-  const { width: w } = useThree((state) => state.viewport); // Get the viewport width
-  const scale = w / 40; // Calculate responsive scale
+  const { width: w } = useThree((state) => state.viewport);
+  const scale = w / 40;
 
   return (
     <group scale={scale}>

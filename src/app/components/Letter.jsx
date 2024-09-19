@@ -12,22 +12,22 @@ export default function Letter({
   textBevelSize = 0.02,
   textBevelThickness = 0.5,
   yRotation = 0,
-  motionZinit = -2, // Initial Z position for the animation
-  motionZ = 0, // Final Z position for the animation
-  motionDuration = 1, // Duration of the animation
-  motionDelay = 2, // Delay before the animation starts
+  motionZinit = -2,
+  motionZ = 0,
+  motionDuration = 1,
+  motionDelay = 2,
 }) {
   return (
     <motion.group
       initial={{
-        z: motionZinit, // Correctly setting initial Z position
+        z: motionZinit,
       }}
       animate={{
-        z: motionZ, // Final Z position to animate to
+        z: motionZ,
       }}
       transition={{
-        duration: motionDuration, // Duration of the animation
-        delay: motionDelay, // Delay before the animation starts
+        duration: motionDuration,
+        delay: motionDelay,
       }}
     >
       <Text3D
