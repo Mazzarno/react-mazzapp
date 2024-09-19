@@ -1,175 +1,198 @@
-import { Text3D, Center, Float } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
-export default function Text() {
-  const fontUrl = "/fonts/Despairs1.json";
-  const { width: w, height: h } = useThree((state) => state.viewport);
-  const textSize = w / 14;
-  const TextMaxWidth = [-w / 5, -h * 2, 3];
-  const textCurveSegments = 10;
-  const textBevelSize = 0.02;
-  const textBevelThickness = 0.5;
-  const textHeight = 0.2;
-  const textLetterSpacing = 0.2;
+import { Float } from "@react-three/drei";
+import Letter from "./Letter";
 
+export default function Text() {
   return (
     <>
-
-      <Center>
-        <group position={[-7, -1, 0.7]}>
-          <Text3D
-            position={[3, 2, 0]}
-            size={textSize}
-            maxWidth={TextMaxWidth}
-            font={fontUrl}
-            curveSegments={textCurveSegments}
-            bevelEnabled
-            bevelSize={textBevelSize}
-            bevelThickness={textBevelThickness}
-            height={textHeight}
-            letterSpacing={textLetterSpacing}
-            castShadow
-          >
-            {`ALEXIS`}
-            <meshStandardMaterial color="#f8f9fa" />
-          </Text3D>
-          <Text3D
-            position={[0, -2, 0]}
-            size={textSize}
-            maxWidth={TextMaxWidth}
-            font={fontUrl}
-            curveSegments={textCurveSegments}
-            bevelEnabled
-            bevelSize={textBevelSize}
-            bevelThickness={textBevelThickness}
-            height={textHeight}
-            letterSpacing={textLetterSpacing}
-            castShadow
-          >
-            {`GERMAIN`}
-            <meshStandardMaterial color="#f8f9fa" />
-          </Text3D>
-        </group>
-      </Center>
-      <Float
-        speed={1} // Animation speed, defaults to 1
-        rotationIntensity={0.1} // XYZ rotation intensity, defaults to 1
-        floatIntensity={1} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
-        floatingRange={[-1, 1]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
-      >
-        <Text3D
-          position={[-14, 2, 2]}
-          size={w / 12}
-          maxWidth={[-w / 5, -h * 2, 3]}
-          font={fontUrl}
-          curveSegments={10}
-          bevelEnabled
-          bevelSize={0.02}
-          bevelThickness={0.5}
-          height={0.2}
-          letterSpacing={0.2}
-          castShadow
-          rotation-y="0.5"
-        >
-          {`?`}
-          <meshStandardMaterial color="#f8f9fa" />
-        </Text3D>
-      </Float>
-      <Float
-        speed={1} // Animation speed, defaults to 1
-        rotationIntensity={0.1} // XYZ rotation intensity, defaults to 1
-        floatIntensity={1} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
-        floatingRange={[-1, 1]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
-      >
-        <Text3D
-          position={[-15, -4, 2]}
-          size={w / 12}
-          maxWidth={[-w / 5, -h * 2, 3]}
-          font={fontUrl}
-          curveSegments={10}
-          bevelEnabled
-          bevelSize={0.02}
-          bevelThickness={0.5}
-          height={0.2}
-          letterSpacing={0.2}
-          castShadow
-          rotation-y="1.1"
-        >
-          {`<`}
-          <meshStandardMaterial color="#f8f9fa" />
-        </Text3D>
-      </Float>
-      <Float
-        speed={1} // Animation speed, defaults to 1
-        rotationIntensity={0.1} // XYZ rotation intensity, defaults to 1
-        floatIntensity={1} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
-        floatingRange={[-1, 1]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
-      >
-        <Text3D
-          position={[10, 1, 2]}
-          size={w / 16}
-          maxWidth={[-w / 5, -h * 2, 3]}
-          font={fontUrl}
-          curveSegments={10}
-          bevelEnabled
-          bevelSize={0.02}
-          bevelThickness={0.5}
-          height={0.2}
-          letterSpacing={0.2}
-          castShadow
-          rotation-y="-1.2"
-        >
-          {`/`}
-          <meshStandardMaterial color="#f8f9fa" />
-        </Text3D>
-      </Float>
-      <Float
-        speed={1} // Animation speed, defaults to 1
-        rotationIntensity={0.1} // XYZ rotation intensity, defaults to 1
-        floatIntensity={1} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
-        floatingRange={[-1, 1]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
-      >
-        <Text3D
-          position={[12, 0.5, 2]}
-          size={w / 12}
-          maxWidth={[-w / 5, -h * 2, 3]}
-          font={fontUrl}
-          curveSegments={10}
-          bevelEnabled
-          bevelSize={0.02}
-          bevelThickness={0.5}
-          height={0.2}
-          letterSpacing={0.2}
-          rotation-y="-1"
-          castShadow
-        >
-          {`>`}
-          <meshStandardMaterial color="#f8f9fa" />
-        </Text3D>
-      </Float>
-      <Float
-        speed={1} // Animation speed, defaults to 1
-        rotationIntensity={0.1} // XYZ rotation intensity, defaults to 1
-        floatIntensity={1} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
-        floatingRange={[-1, 1]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
-      >
-        <Text3D
-          position={[12, -6, 2]}
-          size={w / 16}
-          maxWidth={[-w / 5, -h * 2, 3]}
-          font={fontUrl}
-          curveSegments={10}
-          bevelEnabled
-          bevelSize={0.02}
-          bevelThickness={0.5}
-          height={0.2}
-          letterSpacing={0.2}
-          castShadow
-          rotation-y="-1"
-        >
-          {`@`}
-          <meshStandardMaterial color="#f8f9fa" />
-        </Text3D>
-      </Float>
+      <AlexisGermain />
+      <FloatingLetter />
     </>
+  );
+}
+
+function AlexisGermain() {
+  return (
+    <group position={[-2, -0.5, 0]}>
+      <group position={[0.5, 0.8, 0]}>
+        <Letter
+          motionZinit={-1.7}
+          motionZ={0}
+          motionDelay={1.5}
+          letter='A'
+          position={[-6.2, 0, 0.7]}
+        />{" "}
+        <Letter
+          motionZinit={-1.7}
+          motionZ={0}
+          motionDelay={2}
+          letter='L'
+          position={[-3, 0, 0.7]}
+        />
+        <Letter
+          motionZinit={-1.7}
+          motionZ={0}
+          motionDelay={2.5}
+          letter='E'
+          position={[-0.5, 0, 0.7]}
+        />
+        <Letter
+          motionZinit={-1.7}
+          motionZ={0}
+          motionDelay={3}
+          letter='X'
+          position={[2.2, 0, 0.7]}
+        />
+        <Letter
+          motionZinit={-1.7}
+          motionZ={0}
+          motionDelay={3.5}
+          letter='I'
+          position={[5.3, 0, 0.7]}
+        />
+        <Letter
+          motionZinit={-1.7}
+          motionZ={0}
+          motionDelay={4}
+          letter='S'
+          position={[6, 0, 0.7]}
+        />
+      </group>
+
+      <group position={[0, -2.9, 0]}>
+        <Letter
+          motionZinit={-1.7}
+          motionZ={0}
+          motionDelay={3}
+          letter='G'
+          position={[-8, 0, 0.7]}
+        />
+        <Letter
+          motionZinit={-1.7}
+          motionZ={0}
+          motionDelay={3.5}
+          letter='E'
+          position={[-4.5, 0, 0.7]}
+        />
+        <Letter
+          motionZinit={-1.7}
+          motionZ={0}
+          motionDelay={4}
+          letter='R'
+          position={[-1.8, 0, 0.7]}
+        />
+        <Letter
+          motionZinit={-1.7}
+          motionZ={0}
+          motionDelay={4.5}
+          letter='M'
+          position={[1, 0, 0.7]}
+        />
+        <Letter
+          motionZinit={-1.7}
+          motionZ={0}
+          motionDelay={5}
+          letter='A'
+          position={[4.2, 0, 0.7]}
+        />
+        <Letter
+          motionZinit={-1.7}
+          motionZ={0}
+          motionDelay={5.5}
+          letter='I'
+          position={[7.4, 0, 0.7]}
+        />
+        <Letter
+          motionZinit={-1.7}
+          motionZ={0}
+          motionDelay={6}
+          letter='N'
+          position={[8.2, 0, 0.7]}
+        />
+      </group>
+    </group>
+  );
+}
+
+function FloatingLetter() {
+  const floatSpeed = 1;
+  const floatRotationIntensity = 0.1;
+  const floatIntensities = 1;
+  const floatRange = [-1, 1];
+
+  return (
+    <group>
+      <Float
+        speed={floatSpeed}
+        rotationIntensity={floatRotationIntensity}
+        floatIntensity={floatIntensities}
+        floatingRange={floatRange}
+      >
+        <Letter
+          motionZinit={-2}
+          motionZ={0}
+          motionDelay={7}
+          letter='?'
+          position={[-14, 2, 1]}
+        />
+      </Float>
+      <Float
+        speed={floatSpeed}
+        rotationIntensity={floatRotationIntensity}
+        floatIntensity={floatIntensities}
+        floatingRange={floatRange}
+      >
+        <Letter
+          motionZinit={-2}
+          motionZ={0}
+          motionDelay={6}
+          letter='<'
+          position={[-14, -3, 1]}
+        />
+      </Float>
+      <Float
+        speed={floatSpeed}
+        rotationIntensity={floatRotationIntensity}
+        floatIntensity={floatIntensities}
+        floatingRange={floatRange}
+      >
+        <Letter
+          motionZinit={-2}
+          motionZ={0}
+          motionDelay={6.5}
+          letter='/'
+          position={[8, 1, 1]}
+          textSize={2}
+        />
+      </Float>
+      <Float
+        speed={floatSpeed}
+        rotationIntensity={floatRotationIntensity}
+        floatIntensity={floatIntensities}
+        floatingRange={floatRange}
+      >
+        <Letter
+          motionZinit={-2}
+          motionZ={0}
+          motionDelay={6}
+          letter='>'
+          position={[10, 0.5, 1]}
+        />
+      </Float>
+      <Float
+        speed={floatSpeed}
+        rotationIntensity={floatRotationIntensity}
+        floatIntensity={floatIntensities}
+        floatingRange={floatRange}
+      >
+        <Letter
+          motionZinit={-2}
+          motionZ={0}
+          motionDelay={7}
+          letter='@'
+          position={[10, -4, 1]}
+          textSize={2}
+        />
+      </Float>
+    </group>
   );
 }
