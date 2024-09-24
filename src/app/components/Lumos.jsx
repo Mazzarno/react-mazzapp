@@ -59,7 +59,7 @@ export default function Lumos() {
         position={[0, 0, 3.5]}
         color={"#faedcd"}
         castShadow
-        intensity={20}
+        intensity={25}
         shadow-mapSize={[2048, 2048]}
         shadow-camera-near={0.5}
         shadow-camera-far={50}

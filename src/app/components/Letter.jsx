@@ -44,7 +44,7 @@ export default function Letter({
         receiveShadow
       >
         {letter}
-        <meshStandardMaterial color={color} />
+        <meshPhongMaterial color={color} />
       </Text3D>
     </motion.group>
   );

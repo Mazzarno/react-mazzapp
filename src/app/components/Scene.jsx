@@ -5,22 +5,21 @@ import {
   Plane,
   PerspectiveCamera,
   CameraShake,
-  PositionalAudio,
+  Environment,
 } from "@react-three/drei";
 import * as THREE from "three";
 import Text from "./Text.jsx";
 import Lumos from "./Lumos.jsx";
 import gsap from "gsap";
 
+// Main Scene Component
 export default function Scene() {
   return (
     <>
       <Canvas shadows>
+        <Environment preset='sunset' />
         <PerspectiveCamera makeDefault position={[0, 0, 20]} fov={60} />
         <CameraShakeWithMouse />
-        <group position={[0, 0, 0]}>
-          <PositionalAudio autoplay loop url='/music.mp3' distance={3} />
-        </group>
         <Plane receiveShadow args={[100, 100]} position={[0, 0, 0]}>
           <meshToonMaterial color='#e9ecef' receiveShadow />
         </Plane>
@@ -31,10 +30,11 @@ export default function Scene() {
     </>
   );
 }
+
+// Responsive scaling group based on viewport size
 function ResponsiveGroup() {
   const { width: w } = useThree((state) => state.viewport);
-  const scale = w / 40;
-
+  const scale = w / 40; // Adjust the divisor to control the scale responsiveness
   return (
     <group scale={scale}>
       <Text />
@@ -42,6 +42,7 @@ function ResponsiveGroup() {
   );
 }
 
+// Camera shake with mouse-following effect
 function CameraShakeWithMouse() {
   const { camera } = useThree();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
