@@ -18,42 +18,42 @@ function AlexisGermain() {
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={1.5}
-          letter='A'
+          letter="A"
           position={[-6.2, 0, 0.7]}
-        />{" "}
+        />
         <Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={2}
-          letter='L'
+          letter="L"
           position={[-3, 0, 0.7]}
         />
         <Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={2.5}
-          letter='E'
+          letter="E"
           position={[-0.5, 0, 0.7]}
         />
         <Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={3}
-          letter='X'
+          letter="X"
           position={[2.2, 0, 0.7]}
         />
         <Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={3.5}
-          letter='I'
+          letter="I"
           position={[5.3, 0, 0.7]}
         />
         <Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={4}
-          letter='S'
+          letter="S"
           position={[6, 0, 0.7]}
         />
       </group>
@@ -63,49 +63,49 @@ function AlexisGermain() {
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={3}
-          letter='G'
+          letter="G"
           position={[-8, 0, 0.7]}
         />
         <Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={3.5}
-          letter='E'
+          letter="E"
           position={[-4.5, 0, 0.7]}
         />
         <Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={4}
-          letter='R'
+          letter="R"
           position={[-1.8, 0, 0.7]}
         />
         <Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={4.5}
-          letter='M'
+          letter="M"
           position={[1, 0, 0.7]}
         />
         <Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={5}
-          letter='A'
+          letter="A"
           position={[4.2, 0, 0.7]}
         />
         <Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={5.5}
-          letter='I'
+          letter="I"
           position={[7.4, 0, 0.7]}
         />
         <Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={6}
-          letter='N'
+          letter="N"
           position={[8.2, 0, 0.7]}
         />
       </group>
@@ -131,7 +131,7 @@ function FloatingLetter() {
           motionZinit={-2}
           motionZ={0}
           motionDelay={7}
-          letter='?'
+          letter="?"
           position={[-14, 2, 1]}
         />
       </Float>
@@ -145,7 +145,7 @@ function FloatingLetter() {
           motionZinit={-2}
           motionZ={0}
           motionDelay={6}
-          letter='<'
+          letter="<"
           position={[-14, -3, 1]}
         />
       </Float>
@@ -159,7 +159,7 @@ function FloatingLetter() {
           motionZinit={-2}
           motionZ={0}
           motionDelay={6.5}
-          letter='/'
+          letter="/"
           position={[8, 1, 1]}
           textSize={2}
         />
@@ -174,7 +174,7 @@ function FloatingLetter() {
           motionZinit={-2}
           motionZ={0}
           motionDelay={6}
-          letter='>'
+          letter=">"
           position={[10, 0.5, 1]}
         />
       </Float>
@@ -188,7 +188,7 @@ function FloatingLetter() {
           motionZinit={-2}
           motionZ={0}
           motionDelay={7}
-          letter='@'
+          letter="@"
           position={[10, -4, 1]}
           textSize={2}
         />

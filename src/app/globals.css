@@ -7,9 +7,28 @@
     text-wrap: balance;
   }
 }
-body {
+body,
+html {
   font-family: var(--font-despairs);
+  font-family: "Day Roman" !important;
+  background-color: black;
+  overflow: hidden !important;
+  scrollbar-width: none;
+  overscroll-behavior: none !important;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  min-height: -webkit-fill-available !important;
+  height: calc(var(--vh, 1vh) * 100);
+  overflow: hidden;
 }
+::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+  -webkit-appearance: none;
+  width: 0;
+  height: 0;
+  display: none;
+}
+
 // ANIMATION LOADING
 
 .pl {

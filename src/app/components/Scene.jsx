@@ -2,28 +2,50 @@
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { useState, useEffect } from "react";
 import {
-  Plane,
   PerspectiveCamera,
   CameraShake,
   Environment,
+  OrbitControls,
 } from "@react-three/drei";
 import * as THREE from "three";
+import { useControls } from "leva";
 import Text from "./Text.jsx";
 import Lumos from "./Lumos.jsx";
+import PerfectRoom from "./PerfectRoom.jsx";
 import gsap from "gsap";
 
-// Main Scene Component
 export default function Scene() {
+  const { x, y, z } = useControls({
+    x: {
+      value: 0, // Position initiale de l'axe X
+      min: -50, // Limite minimum pour X
+      max: 50, // Limite maximum pour X
+      step: 0.1, // Pas d'incrémentation
+      label: "X Axis", // Label pour clarification dans Leva UI
+    },
+    y: {
+      value: 0, // Position initiale de l'axe Y
+      min: -50, // Limite minimum pour Y
+      max: 50, // Limite maximum pour Y
+      step: 0.1, // Pas d'incrémentation
+      label: "Y Axis", // Label pour clarification
+    },
+    z: {
+      value: 20, // Position initiale de l'axe Z
+      min: -50, // Limite minimum pour Z
+      max: 50, // Limite maximum pour Z
+      step: 0.1, // Pas d'incrémentation
+      label: "Z Axis", // Label pour clarification
+    },
+  });
+
   return (
     <>
       <Canvas shadows>
-        <Environment preset='sunset' />
-        <PerspectiveCamera makeDefault position={[0, 0, 20]} fov={60} />
-        <CameraShakeWithMouse />
-        <Plane receiveShadow args={[100, 100]} position={[0, 0, 0]}>
-          <meshToonMaterial color='#e9ecef' receiveShadow />
-        </Plane>
-        <color attach='background' args={["#e9ecef"]} />
+        <Environment preset="sunset" />
+        <PerspectiveCamera makeDefault position={[x, y, z]} fov={60} />
+        <OrbitControls />
+        <color attach="background" args={["#e9ecef"]} />
         <ResponsiveGroup textSize={16} />
         <Lumos />
       </Canvas>
@@ -31,10 +53,9 @@ export default function Scene() {
   );
 }
 
-// Responsive scaling group based on viewport size
 function ResponsiveGroup() {
   const { width: w } = useThree((state) => state.viewport);
-  const scale = w / 40; // Adjust the divisor to control the scale responsiveness
+  const scale = w / 40;
   return (
     <group scale={scale}>
       <Text />
@@ -42,7 +63,6 @@ function ResponsiveGroup() {
   );
 }
 
-// Camera shake with mouse-following effect
 function CameraShakeWithMouse() {
   const { camera } = useThree();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
