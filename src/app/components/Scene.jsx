@@ -42,6 +42,7 @@ export default function Scene() {
   return (
     <>
       <Canvas shadows>
+        <PerfectRoom />
         <Environment preset="sunset" />
         <PerspectiveCamera makeDefault position={[x, y, z]} fov={60} />
         <OrbitControls />
