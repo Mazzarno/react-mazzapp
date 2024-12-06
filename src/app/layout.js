@@ -8,12 +8,12 @@ const Despairs = localFont({
 
 export const metadata = {
   title: "Alexis GERMAIN",
-  description: "Alexis GERMAIN - Web Developer based in Paris, France",
+  description: "Alexis GERMAIN - Web Developer based in Paris",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang='fr'>
+    <html lang="fr">
       <body className={`${Despairs.variable}`}>{children}</body>
     </html>
   );

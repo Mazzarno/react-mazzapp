@@ -1,11 +1,14 @@
 import { Text3D } from "@react-three/drei";
 import { motion } from "framer-motion-3d";
 
+
+
+
 export default function Letter({
   letter,
   position = [0, 0, 0],
   color = "#6c757d",
-  font = "/fonts/Despairs1.json",
+  font = "/fonts/presstart.json",
   textSize = 3.2,
   textHeight = 0.2,
   textCurveSegments = 10,

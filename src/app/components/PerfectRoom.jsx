@@ -3,6 +3,7 @@ import { Plane } from "@react-three/drei";
 
 // Main Scene Component
 export default function PerfectRoom() {
+  const wallColor = "#dee2e6";
   return (
     <>
       {/* FORWARD WALL */}
@@ -12,7 +13,7 @@ export default function PerfectRoom() {
         position={[0, 15, 0]}
         rotation={[0, 0, 0]}
       >
-        <meshToonMaterial color="#e9ecef" receiveShadow />
+        <meshToonMaterial color={wallColor} receiveShadow />
       </Plane>
       {/* RIGHT WALL */}
       <Plane
@@ -21,7 +22,7 @@ export default function PerfectRoom() {
         position={[25, 15, 25]}
         rotation={[0, -Math.PI / 2, 0]}
       >
-        <meshToonMaterial color="#e9ecef" receiveShadow />
+        <meshToonMaterial color={wallColor} receiveShadow />
       </Plane>
       {/* LEFT WALL */}
       <Plane
@@ -30,7 +31,7 @@ export default function PerfectRoom() {
         position={[-25, 15, 25]}
         rotation={[0, Math.PI / 2, 0]}
       >
-        <meshToonMaterial color="#e9ecef" receiveShadow />
+        <meshToonMaterial color={wallColor} receiveShadow />
       </Plane>
       {/* FLOOR */}
       <Plane
@@ -39,7 +40,7 @@ export default function PerfectRoom() {
         position={[0, -10, 25]}
         rotation={[-Math.PI / 2, 0, 0]}
       >
-        <meshToonMaterial color="#e9ecef" receiveShadow />
+        <meshToonMaterial color={wallColor} receiveShadow />
       </Plane>
     </>
   );

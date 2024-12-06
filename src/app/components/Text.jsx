@@ -1,11 +1,15 @@
 import { Float } from "@react-three/drei";
 import Letter from "./Letter";
+import Start from "./Start";
 
 export default function Text() {
   return (
     <>
-      <AlexisGermain />
-      <FloatingLetter />
+      <group position={[0, 0, 0]}>
+        <AlexisGermain />
+        <FloatingLetter />
+        <Start />
+      </group>
     </>
   );
 }

@@ -5,7 +5,8 @@ import {
   PerspectiveCamera,
   CameraShake,
   Environment,
-  OrbitControls,
+  Plane,
+  Html,
 } from "@react-three/drei";
 import * as THREE from "three";
 import { useControls } from "leva";
@@ -15,8 +16,8 @@ import PerfectRoom from "./PerfectRoom.jsx";
 import gsap from "gsap";
 
 export default function Scene() {
-  const { x, y, z } = useControls({
-    x: {
+  /* const { x, y, z } = useControls({
+    x: {rea
       value: 0, // Position initiale de l'axe X
       min: -50, // Limite minimum pour X
       max: 50, // Limite maximum pour X
@@ -38,14 +39,17 @@ export default function Scene() {
       label: "Z Axis", // Label pour clarification
     },
   });
-
+*/
   return (
     <>
+      <div className="screen_pc"></div>
       <Canvas shadows>
-        <PerfectRoom />
         <Environment preset="sunset" />
-        <PerspectiveCamera makeDefault position={[x, y, z]} fov={60} />
-        <OrbitControls />
+        <PerspectiveCamera makeDefault position={[0, 0, 20]} fov={60} />
+        <CameraShakeWithMouse />
+        <Plane receiveShadow args={[100, 100]} position={[0, 0, 0]}>
+          <meshToonMaterial color="#495057" receiveShadow />
+        </Plane>
         <color attach="background" args={["#e9ecef"]} />
         <ResponsiveGroup textSize={16} />
         <Lumos />
@@ -56,7 +60,7 @@ export default function Scene() {
 
 function ResponsiveGroup() {
   const { width: w } = useThree((state) => state.viewport);
-  const scale = w / 40;
+  const scale = w / 55;
   return (
     <group scale={scale}>
       <Text />
@@ -99,11 +103,11 @@ function CameraShakeWithMouse() {
 
   return (
     <CameraShake
-      maxYaw={0.01}
-      maxPitch={0.01}
+      maxYaw={0.001}
+      maxPitch={0.001}
       maxRoll={0}
-      yawFrequency={0.1}
-      pitchFrequency={0.1}
+      yawFrequency={0.01}
+      pitchFrequency={0.01}
       rollFrequency={0}
     />
   );
