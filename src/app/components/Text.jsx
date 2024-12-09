@@ -1,14 +1,16 @@
 import { Float } from "@react-three/drei";
-import Letter from "./Letter";
-import Start from "./Start";
+import { motion } from "framer-motion-3d";
+import Font1Letter from "./Font1Letter";
+import Font2Letter from "./Font2Letter";
+import { useState } from "react";
 
 export default function Text() {
   return (
     <>
-      <group position={[0, 0, 0]}>
+      <group position={[-0.2, 1.3, 0]}>
         <AlexisGermain />
         <FloatingLetter />
-        <Start />
+        <PressStart />
       </group>
     </>
   );
@@ -18,98 +20,98 @@ function AlexisGermain() {
   return (
     <group position={[-2, -0.5, 0]}>
       <group position={[0.5, 0.8, 0]}>
-        <Letter
+        <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={1.5}
-          letter="A"
+          Font1Letter="A"
           position={[-6.2, 0, 0.7]}
         />
-        <Letter
+        <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={2}
-          letter="L"
+          Font1Letter="L"
           position={[-3, 0, 0.7]}
         />
-        <Letter
+        <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={2.5}
-          letter="E"
+          Font1Letter="E"
           position={[-0.5, 0, 0.7]}
         />
-        <Letter
+        <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={3}
-          letter="X"
+          Font1Letter="X"
           position={[2.2, 0, 0.7]}
         />
-        <Letter
+        <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={3.5}
-          letter="I"
+          Font1Letter="I"
           position={[5.3, 0, 0.7]}
         />
-        <Letter
+        <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={4}
-          letter="S"
+          Font1Letter="S"
           position={[6, 0, 0.7]}
         />
       </group>
 
       <group position={[0, -2.9, 0]}>
-        <Letter
+        <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={3}
-          letter="G"
+          Font1Letter="G"
           position={[-8, 0, 0.7]}
         />
-        <Letter
+        <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={3.5}
-          letter="E"
+          Font1Letter="E"
           position={[-4.5, 0, 0.7]}
         />
-        <Letter
+        <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={4}
-          letter="R"
+          Font1Letter="R"
           position={[-1.8, 0, 0.7]}
         />
-        <Letter
+        <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={4.5}
-          letter="M"
+          Font1Letter="M"
           position={[1, 0, 0.7]}
         />
-        <Letter
+        <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={5}
-          letter="A"
+          Font1Letter="A"
           position={[4.2, 0, 0.7]}
         />
-        <Letter
+        <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={5.5}
-          letter="I"
+          Font1Letter="I"
           position={[7.4, 0, 0.7]}
         />
-        <Letter
+        <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
           motionDelay={6}
-          letter="N"
+          Font1Letter="N"
           position={[8.2, 0, 0.7]}
         />
       </group>
@@ -131,11 +133,11 @@ function FloatingLetter() {
         floatIntensity={floatIntensities}
         floatingRange={floatRange}
       >
-        <Letter
+        <Font1Letter
           motionZinit={-2}
           motionZ={0}
           motionDelay={7}
-          letter="?"
+          Font1Letter="?"
           position={[-14, 2, 1]}
         />
       </Float>
@@ -145,11 +147,11 @@ function FloatingLetter() {
         floatIntensity={floatIntensities}
         floatingRange={floatRange}
       >
-        <Letter
+        <Font1Letter
           motionZinit={-2}
           motionZ={0}
           motionDelay={6}
-          letter="<"
+          Font1Letter="<"
           position={[-14, -3, 1]}
         />
       </Float>
@@ -159,11 +161,11 @@ function FloatingLetter() {
         floatIntensity={floatIntensities}
         floatingRange={floatRange}
       >
-        <Letter
+        <Font1Letter
           motionZinit={-2}
           motionZ={0}
           motionDelay={6.5}
-          letter="/"
+          Font1Letter="/"
           position={[8, 1, 1]}
           textSize={2}
         />
@@ -174,11 +176,11 @@ function FloatingLetter() {
         floatIntensity={floatIntensities}
         floatingRange={floatRange}
       >
-        <Letter
+        <Font1Letter
           motionZinit={-2}
           motionZ={0}
           motionDelay={6}
-          letter=">"
+          Font1Letter=">"
           position={[10, 0.5, 1]}
         />
       </Float>
@@ -188,15 +190,42 @@ function FloatingLetter() {
         floatIntensity={floatIntensities}
         floatingRange={floatRange}
       >
-        <Letter
+        <Font1Letter
           motionZinit={-2}
           motionZ={0}
           motionDelay={7}
-          letter="@"
+          Font1Letter="@"
           position={[10, -4, 1]}
           textSize={2}
         />
       </Float>
     </group>
+  );
+}
+
+function PressStart() {
+  const [isHovered, setIsHovered] = useState(false);
+  return (
+    <motion.group
+      position={[-7, -8, 0]}
+      whileTap={{ scale: 0.9 }}
+      whileHover={{ opacity: [1, 0.5, 1] }}
+      onTap={() => console.log("tapped!")}
+    >
+      <Font2Letter
+        motionZinit={-1.7}
+        motionZ={0}
+        motionDelay={8}
+        Font2Letter=">"
+        position={[-2, 0, 0.7]}
+      />
+      <Font2Letter
+        motionZinit={-1.7}
+        motionZ={0}
+        motionDelay={8}
+        Font2Letter="PRESS START"
+        position={[0, 0, 0.7]}
+      />
+    </motion.group>
   );
 }
