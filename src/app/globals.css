@@ -35,7 +35,18 @@ html {
   background-image: url("/soni_xl.png");
   background-size: 100% 100%;
   position: absolute;
-  z-index: 99;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+.noisy {
+  width: 100%;
+  height: 100%;
+  background-image: url("/noisy.png");
+  background-size: 100% 100%;
+  position: absolute;
+  z-index: 8;
   top: 0;
   left: 0;
   pointer-events: none;

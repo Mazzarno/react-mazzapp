@@ -3,6 +3,8 @@ import { motion } from "framer-motion-3d";
 import Font1Letter from "./Font1Letter";
 import Font2Letter from "./Font2Letter";
 import { useState } from "react";
+import gsap from "gsap";
+import { useThree } from "@react-three/fiber";
 
 export default function Text() {
   return (
@@ -124,6 +126,7 @@ function FloatingLetter() {
   const floatRotationIntensity = 0.1;
   const floatIntensities = 1;
   const floatRange = [-1, 1];
+  const [position, setPosition] = useState([0, 0, 0]);
 
   return (
     <group>
@@ -133,13 +136,28 @@ function FloatingLetter() {
         floatIntensity={floatIntensities}
         floatingRange={floatRange}
       >
-        <Font1Letter
-          motionZinit={-2}
-          motionZ={0}
-          motionDelay={7}
-          Font1Letter="?"
-          position={[-14, 2, 1]}
-        />
+        <motion.group
+          drag
+          dragConstraints={{
+            top: 5,
+            bottom: -5,
+            left: -5,
+            right: 5,
+          }}
+          dragMomentum={true}
+          onDrag={(e, info) => {
+            setPosition([info.point.x, info.point.y, position[2]]);
+          }}
+          dragElastic={0.2}
+        >
+          <Font1Letter
+            motionZinit={-2}
+            motionZ={0}
+            motionDelay={7}
+            Font1Letter="?"
+            position={[-14, 2, 1]}
+          />
+        </motion.group>
       </Float>
       <Float
         speed={floatSpeed}
@@ -204,13 +222,28 @@ function FloatingLetter() {
 }
 
 function PressStart() {
-  const [isHovered, setIsHovered] = useState(false);
+  const handlePressStart = () => {
+    gsap.to(camera.rotation, {
+      y: Math.PI / -2,
+      duration: 1.5,
+      delay: 1,
+      ease: "power3.inOut",
+    });
+    gsap.to(camera.position, {
+      z: 50,
+      duration: 1.5,
+      delay: 1,
+      ease: "power3.inOut",
+    });
+  };
+  const { camera } = useThree();
   return (
     <motion.group
       position={[-7, -8, 0]}
-      whileTap={{ scale: 0.9 }}
-      whileHover={{ opacity: [1, 0.5, 1] }}
-      onTap={() => console.log("tapped!")}
+      whileTap={{
+        scaleZ: 0.5,
+      }}
+      onTap={() => handlePressStart()}
     >
       <Font2Letter
         motionZinit={-1.7}

@@ -6,59 +6,47 @@ import {
   CameraShake,
   Environment,
   Plane,
-  Html,
+  CameraControls,
+  OrbitControls,
 } from "@react-three/drei";
 import * as THREE from "three";
-import { useControls } from "leva";
 import Text from "./Text.jsx";
 import Lumos from "./Lumos.jsx";
-import PerfectRoom from "./PerfectRoom.jsx";
+import Menu from "./Menu.jsx";
 import gsap from "gsap";
 
 export default function Scene() {
-  /* const { x, y, z } = useControls({
-    x: {rea
-      value: 0, // Position initiale de l'axe X
-      min: -50, // Limite minimum pour X
-      max: 50, // Limite maximum pour X
-      step: 0.1, // Pas d'incrémentation
-      label: "X Axis", // Label pour clarification dans Leva UI
-    },
-    y: {
-      value: 0, // Position initiale de l'axe Y
-      min: -50, // Limite minimum pour Y
-      max: 50, // Limite maximum pour Y
-      step: 0.1, // Pas d'incrémentation
-      label: "Y Axis", // Label pour clarification
-    },
-    z: {
-      value: 20, // Position initiale de l'axe Z
-      min: -50, // Limite minimum pour Z
-      max: 50, // Limite maximum pour Z
-      step: 0.1, // Pas d'incrémentation
-      label: "Z Axis", // Label pour clarification
-    },
-  });
-*/
   return (
     <>
       <div className="screen_pc"></div>
+      <div className="noisy"></div>
       <Canvas shadows>
         <Environment preset="sunset" />
-        <PerspectiveCamera makeDefault position={[0, 0, 20]} fov={60} />
-        <CameraShakeWithMouse />
+        <PerspectiveCamera makeDefault position={[0, 0, 20]} fov={20} />
+        {/*  <CameraShakeWithMouse />*/}
+        <OrbitControls />
+
         <Plane receiveShadow args={[100, 100]} position={[0, 0, 0]}>
-          <meshToonMaterial color="#495057" receiveShadow />
+          <meshToonMaterial color="#e9ecef" receiveShadow />
         </Plane>
-        <color attach="background" args={["#e9ecef"]} />
-        <ResponsiveGroup textSize={16} />
+        <Plane
+          receiveShadow
+          args={[100, 100]}
+          position={[50, 0, 50]}
+          rotation={[0, Math.PI / -2, 0]}
+        >
+          <meshToonMaterial color="#e9ecef" receiveShadow />
+        </Plane>
+        <TextResponsiveGroup textSize={16} />
         <Lumos />
+        <Menu />
+        <color attach="background" args={["#e9ecef"]} />
       </Canvas>
     </>
   );
 }
 
-function ResponsiveGroup() {
+function TextResponsiveGroup() {
   const { width: w } = useThree((state) => state.viewport);
   const scale = w / 55;
   return (
@@ -90,14 +78,12 @@ function CameraShakeWithMouse() {
     const shakeIntensity = 3;
     const targetX = mousePos.x * shakeIntensity;
     const targetY = mousePos.y * shakeIntensity;
-
     gsap.to(camera.rotation, {
       x: targetY,
       y: targetX,
       duration: 1,
       ease: "power2.out",
     });
-
     camera.position.lerp(vec.set(mousePos.x * 1, 1, 20), 0.05);
   });
 
