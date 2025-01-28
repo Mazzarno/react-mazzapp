@@ -4,7 +4,7 @@ import { motion } from "framer-motion-3d";
 export default function Font2Letter({
   Font2Letter,
   position = [0, 0, 0],
-  color = "#495057",
+  color = "#f8f9fa",
   font = "/fonts/PressStart2P.json",
   textSize = 1,
   textHeight = 0.3,

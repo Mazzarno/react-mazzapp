@@ -1,12 +1,13 @@
 "use client";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   PerspectiveCamera,
   CameraShake,
   Environment,
   Plane,
   CameraControls,
+  ScreenSpace,
   OrbitControls,
 } from "@react-three/drei";
 import * as THREE from "three";
@@ -20,14 +21,20 @@ export default function Scene() {
     <>
       <div className="screen_pc"></div>
       <div className="noisy"></div>
+
+      <div className="animate-turn-on"></div>
+      <div className="animate-turn-off"></div>
+      {/* <div className="noise-overlay"></div> 
+      
+            <div className="flicker"></div> */}
+
       <Canvas shadows>
         <Environment preset="sunset" />
         <PerspectiveCamera makeDefault position={[0, 0, 20]} fov={20} />
-        {/*  <CameraShakeWithMouse />*/}
+        {/*  <CameraShakeWithMouse />   */}
         <OrbitControls />
-
         <Plane receiveShadow args={[100, 100]} position={[0, 0, 0]}>
-          <meshToonMaterial color="#e9ecef" receiveShadow />
+          <meshToonMaterial color="#adb5bd" receiveShadow />
         </Plane>
         <Plane
           receiveShadow
@@ -35,7 +42,7 @@ export default function Scene() {
           position={[50, 0, 50]}
           rotation={[0, Math.PI / -2, 0]}
         >
-          <meshToonMaterial color="#e9ecef" receiveShadow />
+          <meshToonMaterial color="#adb5bd" receiveShadow />
         </Plane>
         <TextResponsiveGroup textSize={16} />
         <Lumos />

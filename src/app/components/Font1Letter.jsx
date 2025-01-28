@@ -4,7 +4,7 @@ import { motion } from "framer-motion-3d";
 export default function Font1Letter({
   Font1Letter,
   position = [0, 0, 0],
-  color = "#495057",
+  color = "#f8f9fa",
   font = "/fonts/Despairs1.json",
   textSize = 3.2,
   textHeight = 0.2,

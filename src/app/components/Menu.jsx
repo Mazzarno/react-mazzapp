@@ -1,20 +1,27 @@
 import { motion } from "framer-motion-3d";
-import { Gltf } from "@react-three/drei";
-import { useState } from "react";
-import { Float } from "@react-three/drei";
+import { Gltf, Float } from "@react-three/drei";
+import { useState, useRef } from "react";
+
 import Font2Letter from "./Font2Letter";
 
+
 export default function Menu() {
-  const [isHovering, setIsHovering] = useState(false);
   const floatSpeed = 2;
   const floatRotationIntensity = 0.1;
   const floatIntensities = 10;
   const floatRange = [-0.01, 0.01];
+    const lightRef = useRef(null);
   return (
     <>
+      <pointLight
+        ref={lightRef}
+        position={[40, 0, 47.5]}
+        castShadow
+        intensity={50}
+      />
       {/*  NOKIA  */}
       <motion.group
-        position={[45, 2, 45]}
+        position={[48, 2, 45]}
         whileTap={{
           scaleY: 0.9,
           scaleZ: 0.9,
@@ -27,47 +34,32 @@ export default function Menu() {
           floatIntensity={floatIntensities}
           floatingRange={floatRange}
         >
-          <motion.group
-            whileHover={{
-              rotateY: [0, Math.PI * 2],
-              transition: {
-                repeat: Infinity,
-                duration: 2,
-                ease: "linear",
-              },
-            }}
-            animate={
-              isHovering
-                ? {}
-                : {
-                    rotateY: Math.PI * 2,
-                    transition: {
-                      duration: 2,
-                      ease: "linear",
-                    },
-                  }
-            }
-            onHoverStart={() => setIsHovering(true)}
-            onHoverEnd={() => setIsHovering(false)}
-          >
+          <RotateGroup>
             <Gltf
               rotation={[0, Math.PI / -2, 0]}
               src={"models/Nokia.glb"}
               scale={10}
+              castShadow
+              receiveShadow
             />
-          </motion.group>
+          </RotateGroup>
           <motion.group
             position={[0, -1.6, -1.4]}
             rotation={[0, Math.PI / -2, 0]}
             scale={0.3}
           >
-            <Font2Letter Font2Letter="CONTACT" position={[0, 0, 0]} />
+            <Font2Letter
+              Font2Letter="CONTACT"
+              position={[0, 0, 0]}
+              castShadow
+              receiveShadow
+            />
           </motion.group>
         </Float>
       </motion.group>
       {/*  PC  */}
       <motion.group
-        position={[45, 2, 50]}
+        position={[48, 2, 50]}
         whileTap={{
           scaleY: 0.9,
           scaleZ: 0.9,
@@ -80,36 +72,15 @@ export default function Menu() {
           floatIntensity={floatIntensities}
           floatingRange={floatRange}
         >
-          <motion.group
-            position={[0, -0.7, 0]}
-            whileHover={{
-              rotateY: [0, Math.PI * 2],
-              transition: {
-                repeat: Infinity,
-                duration: 2,
-                ease: "linear",
-              },
-            }}
-            animate={
-              isHovering
-                ? {}
-                : {
-                    rotateY: Math.PI * 2,
-                    transition: {
-                      duration: 2,
-                      ease: "linear",
-                    },
-                  }
-            }
-            onHoverStart={() => setIsHovering(true)}
-            onHoverEnd={() => setIsHovering(false)}
-          >
+          <RotateGroup position={[0, -0.7, 0]}>
             <Gltf
               rotation={[0, Math.PI / -2, 0]}
               src={"models/Notebook.glb"}
               scale={1.2}
+              castShadow
+              receiveShadow
             />
-          </motion.group>
+          </RotateGroup>
           <motion.group
             position={[0, -1.6, -1.4]}
             rotation={[0, Math.PI / -2, 0]}
@@ -121,7 +92,7 @@ export default function Menu() {
       </motion.group>
       {/*  Dualshock  */}
       <motion.group
-        position={[45, 2, 55]}
+        position={[48, 2, 55]}
         whileTap={{
           scaleY: 0.9,
           scaleZ: 0.9,
@@ -134,37 +105,18 @@ export default function Menu() {
           floatIntensity={floatIntensities}
           floatingRange={floatRange}
         >
-          <motion.group
+          <RotateGroup
             rotation={[0, Math.PI / -2, Math.PI / 2]}
             position={[0, -0.1, 0]}
-            whileHover={{
-              rotateY: [0, Math.PI * 2],
-              transition: {
-                repeat: Infinity,
-                duration: 2,
-                ease: "linear",
-              },
-            }}
-            animate={
-              isHovering
-                ? {}
-                : {
-                    rotateY: Math.PI * 2,
-                    transition: {
-                      duration: 2,
-                      ease: "linear",
-                    },
-                  }
-            }
-            onHoverStart={() => setIsHovering(true)}
-            onHoverEnd={() => setIsHovering(false)}
           >
             <Gltf
-              rotation={[0, Math.PI / -2, 0]}
-              src={"models/Dualshock.glb"}
-              scale={0.8}
+              rotation={[0, Math.PI / 2, 0]}
+              src={"models/DualShock.glb"}
+              scale={1}
+              castShadow
+              receiveShadow
             />
-          </motion.group>
+          </RotateGroup>
           <motion.group
             position={[0, -1.6, -1.4]}
             rotation={[0, Math.PI / -2, 0]}
@@ -176,7 +128,7 @@ export default function Menu() {
       </motion.group>
       {/*  Case  */}
       <motion.group
-        position={[45, -2, 45]}
+        position={[48, -2, 45]}
         whileTap={{
           scaleY: 0.9,
           scaleZ: 0.9,
@@ -189,39 +141,17 @@ export default function Menu() {
           floatIntensity={floatIntensities}
           floatingRange={floatRange}
         >
-          <motion.group
-            rotation={[0, Math.PI / -2, Math.PI / 2]}
-            position={[0, -0.1, 0]}
-            whileHover={{
-              rotateY: [0, Math.PI * 2],
-              transition: {
-                repeat: Infinity,
-                duration: 2,
-                ease: "linear",
-              },
-            }}
-            animate={
-              isHovering
-                ? {}
-                : {
-                    rotateY: Math.PI * 2,
-                    transition: {
-                      duration: 2,
-                      ease: "linear",
-                    },
-                  }
-            }
-            onHoverStart={() => setIsHovering(true)}
-            onHoverEnd={() => setIsHovering(false)}
-          >
+          <RotateGroup rotation={[0, 0, 0]} position={[0, 0.2, 0]}>
             <Gltf
               rotation={[0, Math.PI / -2, 0]}
               src={"models/Case.glb"}
-              scale={1.9}
+              scale={2}
+              castShadow
+              receiveShadow
             />
-          </motion.group>
+          </RotateGroup>
           <motion.group
-            position={[0, -1.6, -1.4]}
+            position={[0, -1.6, -1.8]}
             rotation={[0, Math.PI / -2, 0]}
             scale={0.3}
           >
@@ -229,8 +159,9 @@ export default function Menu() {
           </motion.group>
         </Float>
       </motion.group>
+      {/*  LIGHT  */}
       <motion.group
-        position={[45, -2, 50]}
+        position={[48, -2, 50]}
         whileTap={{
           scaleY: 0.9,
           scaleZ: 0.9,
@@ -243,35 +174,17 @@ export default function Menu() {
           floatIntensity={floatIntensities}
           floatingRange={floatRange}
         >
+          <RotateGroup position={[0, -0.5, 0]}>
+            <Gltf
+              rotation={[Math.PI / 2, Math.PI, Math.PI / -2]}
+              src={"models/Light2.glb"}
+              scale={10}
+              castShadow
+              receiveShadow
+            />
+          </RotateGroup>
           <motion.group
-            rotation={[0, Math.PI / -2, Math.PI / 2]}
-            position={[0, -0.1, 0]}
-            whileHover={{
-              rotateY: [0, Math.PI * 2],
-              transition: {
-                repeat: Infinity,
-                duration: 2,
-                ease: "linear",
-              },
-            }}
-            animate={
-              isHovering
-                ? {}
-                : {
-                    rotateY: Math.PI * 2,
-                    transition: {
-                      duration: 2,
-                      ease: "linear",
-                    },
-                  }
-            }
-            onHoverStart={() => setIsHovering(true)}
-            onHoverEnd={() => setIsHovering(false)}
-          >
-       
-          </motion.group>
-          <motion.group
-            position={[0, -1.6, -1.4]}
+            position={[0, -1.6, -1.05]}
             rotation={[0, Math.PI / -2, 0]}
             scale={0.3}
           >
@@ -280,5 +193,38 @@ export default function Menu() {
         </Float>
       </motion.group>
     </>
+  );
+}
+
+function RotateGroup({ children, rotation, position }) {
+  const [isHovering, setIsHovering] = useState(false);
+  return (
+    <motion.group
+      whileHover={{
+        rotateY: [0, Math.PI * 2],
+        transition: {
+          repeat: Infinity,
+          duration: 2,
+          ease: "linear",
+        },
+      }}
+      animate={
+        isHovering
+          ? {}
+          : {
+              rotateY: Math.PI * 2,
+              transition: {
+                duration: 2,
+                ease: "linear",
+              },
+            }
+      }
+      onHoverStart={() => setIsHovering(true)}
+      onHoverEnd={() => setIsHovering(false)}
+      rotation={rotation}
+      position={position}
+    >
+      {children}
+    </motion.group>
   );
 }

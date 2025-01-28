@@ -52,12 +52,12 @@ export default function Lumos() {
 
   return (
     <>
-      <ambientLight intensity={2} color={"#f8f9fa"} />
-      <directionalLight color={"#f8f9fa"} intensity={1} position={[0, 0, 10]} />
+      <ambientLight intensity={2} />
+      <directionalLight  intensity={1} position={[0, 0, 10]} />
       <pointLight
         ref={lightRef}
         position={[0, 0, 3.5]}
-        color={"#faedcd"}
+     
         castShadow
         intensity={25}
         shadow-mapSize={[2048, 2048]}
