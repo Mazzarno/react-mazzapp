@@ -5,6 +5,7 @@ import Font2Letter from "./Font2Letter";
 import { useState } from "react";
 import gsap from "gsap";
 import { useThree } from "@react-three/fiber";
+import { useEffect } from "react";
 
 export default function Text() {
   return (
@@ -25,42 +26,42 @@ function AlexisGermain() {
         <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
-          motionDelay={1.5}
+          motionDelay={1.2}
           Font1Letter="A"
           position={[-6.2, 0, 0.7]}
         />
         <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
-          motionDelay={2}
+          motionDelay={1.3}
           Font1Letter="L"
           position={[-3, 0, 0.7]}
         />
         <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
-          motionDelay={2.5}
+          motionDelay={1.4}
           Font1Letter="E"
           position={[-0.5, 0, 0.7]}
         />
         <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
-          motionDelay={3}
+          motionDelay={1.5}
           Font1Letter="X"
           position={[2.2, 0, 0.7]}
         />
         <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
-          motionDelay={3.5}
+          motionDelay={1.6}
           Font1Letter="I"
           position={[5.3, 0, 0.7]}
         />
         <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
-          motionDelay={4}
+          motionDelay={1.7}
           Font1Letter="S"
           position={[6, 0, 0.7]}
         />
@@ -70,49 +71,49 @@ function AlexisGermain() {
         <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
-          motionDelay={3}
+          motionDelay={1.8}
           Font1Letter="G"
           position={[-8, 0, 0.7]}
         />
         <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
-          motionDelay={3.5}
+          motionDelay={1.9}
           Font1Letter="E"
           position={[-4.5, 0, 0.7]}
         />
         <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
-          motionDelay={4}
+          motionDelay={2}
           Font1Letter="R"
           position={[-1.8, 0, 0.7]}
         />
         <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
-          motionDelay={4.5}
+          motionDelay={2.1}
           Font1Letter="M"
           position={[1, 0, 0.7]}
         />
         <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
-          motionDelay={5}
+          motionDelay={2.3}
           Font1Letter="A"
           position={[4.2, 0, 0.7]}
         />
         <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
-          motionDelay={5.5}
+          motionDelay={2.4}
           Font1Letter="I"
           position={[7.4, 0, 0.7]}
         />
         <Font1Letter
           motionZinit={-1.7}
           motionZ={0}
-          motionDelay={6}
+          motionDelay={2.5}
           Font1Letter="N"
           position={[8.2, 0, 0.7]}
         />
@@ -136,24 +137,11 @@ function FloatingLetter() {
         floatIntensity={floatIntensities}
         floatingRange={floatRange}
       >
-        <motion.group
-          drag
-          dragConstraints={{
-            top: 5,
-            bottom: -5,
-            left: -5,
-            right: 5,
-          }}
-          dragMomentum={true}
-          onDrag={(e, info) => {
-            setPosition([info.point.x, info.point.y, position[2]]);
-          }}
-          dragElastic={0.2}
-        >
+        <motion.group>
           <Font1Letter
             motionZinit={-2}
             motionZ={0}
-            motionDelay={7}
+            motionDelay={1.2}
             Font1Letter="?"
             position={[-14, 2, 1]}
           />
@@ -168,7 +156,7 @@ function FloatingLetter() {
         <Font1Letter
           motionZinit={-2}
           motionZ={0}
-          motionDelay={6}
+          motionDelay={1.75}
           Font1Letter="<"
           position={[-14, -3, 1]}
         />
@@ -182,7 +170,7 @@ function FloatingLetter() {
         <Font1Letter
           motionZinit={-2}
           motionZ={0}
-          motionDelay={6.5}
+          motionDelay={1.8}
           Font1Letter="/"
           position={[8, 1, 1]}
           textSize={2}
@@ -197,7 +185,7 @@ function FloatingLetter() {
         <Font1Letter
           motionZinit={-2}
           motionZ={0}
-          motionDelay={6}
+          motionDelay={1.85}
           Font1Letter=">"
           position={[10, 0.5, 1]}
         />
@@ -211,7 +199,7 @@ function FloatingLetter() {
         <Font1Letter
           motionZinit={-2}
           motionZ={0}
-          motionDelay={7}
+          motionDelay={2.6}
           Font1Letter="@"
           position={[10, -4, 1]}
           textSize={2}
@@ -223,8 +211,6 @@ function FloatingLetter() {
 
 function PressStart() {
   const handlePressStart = () => {
-    setShowStartup(true);
-    setTimeout(() => setShowStartup(false), 3000);
     gsap.to(camera.rotation, {
       y: Math.PI / -2,
       duration: 1.5,
@@ -239,9 +225,25 @@ function PressStart() {
     });
   };
   const { camera } = useThree();
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.code === "Space" || event.code === "Enter") {
+        handlePressStart();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Nettoyage de l'écouteur
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <motion.group
       position={[-7, -8, 0]}
+      onTouch={() => handlePressStart()}
       whileTap={{
         scaleZ: 0.5,
       }}
@@ -250,14 +252,14 @@ function PressStart() {
       <Font2Letter
         motionZinit={-1.7}
         motionZ={0}
-        motionDelay={8}
+        motionDelay={3}
         Font2Letter=">"
         position={[-2, 0, 0.7]}
       />
       <Font2Letter
         motionZinit={-1.7}
         motionZ={0}
-        motionDelay={8}
+        motionDelay={3}
         Font2Letter="PRESS START"
         position={[0, 0, 0.7]}
       />

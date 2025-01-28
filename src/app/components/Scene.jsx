@@ -25,8 +25,6 @@ export default function Scene() {
         setTimeout(() => setShowStartup(false), 3000);
       }
     });
-
-    return () => clearTimeout(timer);
   }, []);
 
   return (
