@@ -17,22 +17,35 @@ import Menu from "./Menu.jsx";
 import gsap from "gsap";
 
 export default function Scene() {
+  const [showStartup, setShowStartup] = useState(true);
+  useEffect(() => {
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        setShowStartup(true);
+        setTimeout(() => setShowStartup(false), 3000);
+      }
+    });
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <>
-      <div className="screen_pc"></div>
+      {showStartup && <div className="crt-startup"></div>}
+      <div className="static-noise"></div>
+      <div className="scanlines"></div>
+      <div className="noise-overlay"></div>
+      <div className="flicker"></div>
       <div className="noisy"></div>
-
-      <div className="animate-turn-on"></div>
-      <div className="animate-turn-off"></div>
+      <div className="screen_pc"></div>
       {/* <div className="noise-overlay"></div> 
-      
-            <div className="flicker"></div> */}
-
+      <div className="flicker"></div> <div className="noisy"></div>
+      <div className="flicker"></div> */}
       <Canvas shadows>
         <Environment preset="sunset" />
         <PerspectiveCamera makeDefault position={[0, 0, 20]} fov={20} />
-        {/*  <CameraShakeWithMouse />   */}
-        <OrbitControls />
+        {/*  <CameraShakeWithMouse />    <OrbitControls />  */}
+
         <Plane receiveShadow args={[100, 100]} position={[0, 0, 0]}>
           <meshToonMaterial color="#adb5bd" receiveShadow />
         </Plane>

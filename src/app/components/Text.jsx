@@ -223,6 +223,8 @@ function FloatingLetter() {
 
 function PressStart() {
   const handlePressStart = () => {
+    setShowStartup(true);
+    setTimeout(() => setShowStartup(false), 3000);
     gsap.to(camera.rotation, {
       y: Math.PI / -2,
       duration: 1.5,
