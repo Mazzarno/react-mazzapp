@@ -1,12 +1,15 @@
+"use client";
 import { Float } from "@react-three/drei";
 import { motion } from "framer-motion-3d";
-import Font1Letter from "./Font1Letter";
-import Font2Letter from "./Font2Letter";
 import { useState } from "react";
 import gsap from "gsap";
+import * as THREE from "three";
 import { useThree } from "@react-three/fiber";
-import { useEffect } from "react";
 
+import { useCamera } from "./CameraContext";
+import { useLumos } from "./LumosContext";
+import Font1Letter from "./Font1Letter";
+import Font2Letter from "./Font2Letter";
 export default function Text() {
   return (
     <>
@@ -210,40 +213,54 @@ function FloatingLetter() {
 }
 
 function PressStart() {
-  const handlePressStart = () => {
-    gsap.to(camera.rotation, {
-      y: Math.PI / -2,
-      duration: 1.5,
-      delay: 1,
-      ease: "power3.inOut",
-    });
-    gsap.to(camera.position, {
-      z: 50,
-      duration: 1.5,
-      delay: 1,
-      ease: "power3.inOut",
-    });
-  };
   const { camera } = useThree();
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.code === "Space" || event.code === "Enter") {
-        handlePressStart();
-      }
-    };
+  const { lightRef, setTrackMouse } = useLumos();
+  const { triggerStartupAnimation } = useCamera();
 
-    window.addEventListener("keydown", handleKeyDown);
+  const handlePressStart = () => {
+    setTrackMouse(false); // Désactive le suivi souris
+    triggerStartupAnimation();
 
-    // Nettoyage de l'écouteur
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+    // Nouvelle position relative à la caméra
+    const newPosition = new THREE.Vector3(45.5, -10, 20)
+      .applyQuaternion(camera.quaternion)
+      .add(camera.position);
+
+    const tl = gsap.timeline();
+    tl.to(camera.position, {
+      z: 50,
+      onUpdate: () => camera.updateMatrixWorld(),
+    })
+      .to(
+        camera.rotation,
+        {
+          y: Math.PI / -2,
+        },
+        "<"
+      )
+      .to(
+        lightRef.current.position,
+        {
+          x: newPosition.x,
+          y: newPosition.y,
+          z: newPosition.z,
+
+          onUpdate: () => lightRef.current.updateMatrixWorld(),
+        },
+        "<"
+      )
+      .to(
+        lightRef.current,
+        {
+          intensity: 500,
+        },
+        "<"
+      );
+  };
 
   return (
     <motion.group
       position={[-7, -8, 0]}
-      onTouch={() => handlePressStart()}
       whileTap={{
         scaleZ: 0.5,
       }}

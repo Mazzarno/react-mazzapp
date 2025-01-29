@@ -1,24 +1,77 @@
+"use client";
 import { motion } from "framer-motion-3d";
 import { Gltf, Float } from "@react-three/drei";
-import { useState, useRef } from "react";
-
+import { useState } from "react";
+import { useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
+import { useCamera } from "./CameraContext";
+import { useLumos } from "./LumosContext";
 import Font2Letter from "./Font2Letter";
-
+import gsap from "gsap";
 
 export default function Menu() {
   const floatSpeed = 2;
   const floatRotationIntensity = 0.1;
   const floatIntensities = 10;
   const floatRange = [-0.01, 0.01];
-    const lightRef = useRef(null);
+  const [lightActive, setLightActive] = useState(true);
+  const { camera } = useThree();
+  const { lightRef } = useLumos();
+  useFrame(() => {
+    if (lightRef.current) {
+      lightRef.current.visible = lightActive;
+    }
+  });
+
+  const { triggerStartupAnimation } = useCamera();
+  const handleToggleLight = () => {
+    setLightActive((prev) => !prev);
+  };
+
+  const returnScene = () => {
+    const { setTrackMouse } = useLumos();
+
+    const tl = gsap.timeline();
+    tl.to(camera.position, {
+      z: 20,
+      duration: 2,
+      ease: "power2.inOut",
+      onUpdate: () => camera.updateMatrixWorld(),
+    })
+      .to(
+        camera.rotation,
+        {
+          y: 0,
+          duration: 2,
+          ease: "power2.inOut",
+        },
+        "<"
+      )
+      .to(
+        lightRef.current.position,
+        {
+          x: 0,
+          y: 0,
+          z: 3.5,
+          duration: 2,
+          ease: "power2.inOut",
+          onUpdate: () => lightRef.current.updateMatrixWorld(),
+        },
+        "<"
+      )
+      .to(
+        lightRef.current,
+        {
+          intensity: 25,
+          duration: 2,
+          ease: "power2.inOut",
+          onComplete: () => setTrackMouse(true), // Réactive le suivi
+        },
+        "<"
+      );
+  };
   return (
     <>
-      <pointLight
-        ref={lightRef}
-        position={[40, 0, 47.5]}
-        castShadow
-        intensity={50}
-      />
       {/*  NOKIA  */}
       <motion.group
         position={[48, 2, 45]}
@@ -167,6 +220,7 @@ export default function Menu() {
           scaleZ: 0.9,
           scaleX: 0.9,
         }}
+        onTap={() => handleToggleLight()}
       >
         <Float
           speed={floatSpeed}
@@ -189,6 +243,45 @@ export default function Menu() {
             scale={0.3}
           >
             <Font2Letter Font2Letter="LIGHT" position={[0, 0, 0]} />
+          </motion.group>
+        </Float>
+      </motion.group>
+      {/*  RETURN */}
+      <motion.group
+        position={[48, -2, 55]}
+        whileTap={{
+          scaleY: 0.9,
+          scaleZ: 0.9,
+          scaleX: 0.9,
+        }}
+        onTap={() => returnScene()}
+      >
+        <Float
+          speed={floatSpeed}
+          rotationIntensity={floatRotationIntensity}
+          floatIntensity={floatIntensities}
+          floatingRange={floatRange}
+        >
+          <RotateGroup>
+            <Gltf
+              rotation={[0, Math.PI / -2, 0]}
+              src={"models/Nokia.glb"}
+              scale={10}
+              castShadow
+              receiveShadow
+            />
+          </RotateGroup>
+          <motion.group
+            position={[0, -1.6, -1.4]}
+            rotation={[0, Math.PI / -2, 0]}
+            scale={0.3}
+          >
+            <Font2Letter
+              Font2Letter="RETOUR"
+              position={[0, 0, 0]}
+              castShadow
+              receiveShadow
+            />
           </motion.group>
         </Float>
       </motion.group>

@@ -35,7 +35,7 @@ html {
   background-image: url("/soni_xl.png");
   background-size: 100% 100%;
   position: absolute;
-  z-index: 10;
+  z-index: 100 !important;
   top: 0;
   left: 0;
   pointer-events: none;
@@ -70,103 +70,6 @@ html {
   z-index: 7;
   pointer-events: none;
   animation: flicker 0.15s infinite;
-}
-
-.animate-turn-off {
-  animation: turn-off 0.55s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.animate-turn-on {
-  animation: turn-on 3s linear;
-}
-
-.animate-overlay-on {
-  animation: 5s linear;
-}
-
-.static-noise {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent 0px,
-    rgba(255, 255, 255, 0.15) 3px
-  );
-  animation: noise-animation 0.1s steps(2) infinite;
-  pointer-events: none;
-  opacity: 1;
-  z-index: 7;
-}
-
-@keyframes noise-animation {
-  0% {
-    opacity: 0.12;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0.18;
-    transform: translateY(-2px);
-  }
-}
-
-.scanlines {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: repeating-linear-gradient(
-    transparent 2px,
-    rgba(0, 0, 0, 0.15) 4px
-  );
-  opacity: 1;
-  pointer-events: none;
-  animation: scanline-move 0.06s infinite linear;
-  z-index: 7;
-}
-
-@keyframes scanline-move {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(3px);
-  }
-}
-.crt-startup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: white;
-  z-index: 7;
-  animation: tv-startup 1s steps(15) forwards;
-}
-
-@keyframes tv-startup {
-  0% {
-    transform: scaleY(0.05) translateY(30px);
-    opacity: 0.9;
-    background: white;
-  }
-  15% {
-    transform: scaleY(1.15) translateY(-10px);
-    background: black;
-  }
-
-  60% {
-    background: black;
-    opacity: 0.8;
-  }
-
-  100% {
-    opacity: 0;
-    transform: scaleY(1);
-  }
 }
 
 @keyframes flicker {
@@ -255,74 +158,87 @@ html {
   }
 }
 
-.animate-turn-on {
-  animation: 3.4s linear 0s 1 normal none running turn-on;
-}
-
-@keyframes turn-on {
-  0% {
-    opacity: 0;
-    filter: brightness(0.1) contrast(300%) blur(20px) hue-rotate(90deg);
-    transform: scale(1.2) perspective(1000px) rotateX(15deg);
-  }
-
-  2% {
-    filter: brightness(2.5) contrast(400%) blur(10px);
-    opacity: 0.8;
-  }
-
-  10% {
-    filter: brightness(0.8) contrast(250%) blur(8px);
-    transform: scale(1.1);
-  }
-
-  25% {
-    filter: brightness(1.5) contrast(180%) blur(4px);
-  }
-
-  50% {
-    filter: brightness(1.2) contrast(150%) blur(2px);
-    transform: scale(1.02);
-  }
-
-  75% {
-    filter: brightness(0.95) contrast(130%) blur(1px);
-  }
-
-  100% {
-    opacity: 1;
-    filter: brightness(1) contrast(100%) blur(0);
-    transform: scale(1) perspective(0) rotateX(0);
-  }
-}
-
-.crt-glow {
+.scanlines {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(100, 255, 150, 0.1) 0%,
-    rgba(0, 0, 0, 0) 70%
+  background: repeating-linear-gradient(
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 4px
   );
-  animation: glow-pulse 2s ease-out forwards;
-  mix-blend-mode: screen;
+  opacity: 1;
   pointer-events: none;
+  animation: scanline-move 0.06s infinite linear;
   z-index: 7;
 }
 
-@keyframes glow-pulse {
+@keyframes scanline-move {
   0% {
-    opacity: 0;
-    transform: scale(2);
-  }
-  30% {
-    opacity: 0.3;
+    transform: translateY(0);
   }
   100% {
+    transform: translateY(3px);
+  }
+}
+.tv-startup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 7;
+  pointer-events: none;
+  animation: tv-startup 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes tv-startup {
+  0% {
+    transform: scaleY(0.05) translateY(30px);
+    opacity: 1;
+    background: white;
+  }
+  20% {
+    transform: scaleY(1.15) translateY(-10px);
+    background: black;
+  }
+  30% {
+    background: black;
+    opacity: 1;
+  }
+  40% {
+    background: black;
+    opacity: 0.8;
+  }
+  50% {
+    background: black;
+    opacity: 0.6;
+  }
+  50% {
+    background: black;
+    opacity: 0.4;
+  }
+  60% {
+    background: black;
+    opacity: 0.2;
+  }
+  70% {
+    background: black;
+    opacity: 0.1;
+  }
+  80% {
+    background: black;
+    opacity: 0.05;
+  }
+  90% {
+    background: black;
+    opacity: 0.01;
+  }
+
+  100% {
     opacity: 0;
-    transform: scale(1);
+    transform: scaleY(1);
   }
 }

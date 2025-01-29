@@ -1,68 +1,62 @@
-import { useRef, useEffect, useState } from "react";
+"use client";
+import { useRef, useEffect } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
+import { useLumos } from "./LumosContext";
 import gsap from "gsap";
+import * as THREE from "three";
 
 export default function Lumos() {
-  const lightRef = useRef(null);
-  const [inputMoved, setInputMoved] = useState(false);
-  const [inputPos, setInputPos] = useState({ x: 0, y: 0 });
+  const { lightRef, trackMouse, setTrackMouse } = useLumos();
+  const { camera } = useThree();
+  const pos = useRef(new THREE.Vector3(0, 0, 3.5));
+  const mouseTween = useRef();
 
-  const updatePosition = (x, y) => {
-    const posX = (x / window.innerWidth) * 30 - 15;
-    const posY = -(y / window.innerHeight) * 10 + 5;
+  useEffect(() => {
+    if (!trackMouse) return;
 
-    if (lightRef.current) {
-      gsap.to(lightRef.current.position, {
-        x: posX,
-        y: posY,
-        z: 3.5,
+    const handleMove = (e) => {
+      const x = e.touches?.[0]?.clientX || e.clientX;
+      const y = e.touches?.[0]?.clientY || e.clientY;
+
+      const targetX = (x / window.innerWidth) * 30 - 15;
+      const targetY = -(y / window.innerHeight) * 10 + 5;
+
+      mouseTween.current?.kill();
+      mouseTween.current = gsap.to(pos.current, {
+        x: targetX,
+        y: targetY,
         duration: 2.5,
         ease: "power2",
       });
-    }
-  };
-
-  useEffect(() => {
-    const handleMouseMove = (event) => {
-      setInputPos({ x: event.clientX, y: event.clientY });
-      setInputMoved(true);
     };
 
-    const handleTouchMove = (event) => {
-      if (event.touches.length > 0) {
-        const touch = event.touches[0];
-        setInputPos({ x: touch.clientX, y: touch.clientY });
-        setInputMoved(true);
-      }
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("touchmove", handleTouchMove);
-
+    window.addEventListener("mousemove", handleMove);
+    window.addEventListener("touchmove", handleMove);
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("touchmove", handleMove);
+      mouseTween.current?.kill();
     };
-  }, []);
+  }, [trackMouse]);
 
-  useEffect(() => {
-    if (inputMoved) {
-      updatePosition(inputPos.x, inputPos.y);
+  useFrame(() => {
+    if (lightRef.current) {
+      lightRef.current.position.copy(pos.current);
+      lightRef.current.updateMatrixWorld();
     }
-  }, [inputPos, inputMoved]);
+  });
 
   return (
     <>
       <ambientLight intensity={2} />
-      <directionalLight  intensity={1} position={[0, 0, 10]} />
+      <directionalLight intensity={1} position={[0, 0, 10]} />
       <pointLight
         ref={lightRef}
-        position={[0, 0, 3.5]}
-     
         castShadow
         intensity={25}
         shadow-mapSize={[2048, 2048]}
         shadow-camera-near={0.5}
-        shadow-camera-far={50}
+        shadow-camera-far={100}
       />
     </>
   );
