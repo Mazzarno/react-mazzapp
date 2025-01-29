@@ -31,6 +31,7 @@ export default function Scene() {
     <>
       {showStartup && <div className="crt-startup"></div>}
       <div className="static-noise"></div>
+      <div className="crt-glow"></div>
       <div className="scanlines"></div>
       <div className="noise-overlay"></div>
       <div className="flicker"></div>
