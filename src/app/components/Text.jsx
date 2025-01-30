@@ -3,7 +3,6 @@ import { Float } from "@react-three/drei";
 import { motion } from "framer-motion-3d";
 import { useState } from "react";
 import gsap from "gsap";
-import * as THREE from "three";
 import { useThree } from "@react-three/fiber";
 
 import { useCamera } from "./CameraContext";
@@ -214,50 +213,18 @@ function FloatingLetter() {
 
 function PressStart() {
   const { camera } = useThree();
-  const { lightRef, setTrackMouse } = useLumos();
   const { triggerStartupAnimation } = useCamera();
 
   const handlePressStart = () => {
-    setTrackMouse(false); // Désactive le suivi souris
     triggerStartupAnimation();
-
-    // Nouvelle position relative à la caméra
-    const newPosition = new THREE.Vector3(45.5, -10, 20)
-      .applyQuaternion(camera.quaternion)
-      .add(camera.position);
-
-    const tl = gsap.timeline();
-    tl.to(camera.position, {
+    gsap.to(camera.position, {
       z: 50,
-      onUpdate: () => camera.updateMatrixWorld(),
-    })
-      .to(
-        camera.rotation,
-        {
-          y: Math.PI / -2,
-        },
-        "<"
-      )
-      .to(
-        lightRef.current.position,
-        {
-          x: newPosition.x,
-          y: newPosition.y,
-          z: newPosition.z,
+    });
 
-          onUpdate: () => lightRef.current.updateMatrixWorld(),
-        },
-        "<"
-      )
-      .to(
-        lightRef.current,
-        {
-          intensity: 500,
-        },
-        "<"
-      );
+    gsap.to(camera.rotation, {
+      y: Math.PI / -2,
+    });
   };
-
   return (
     <motion.group
       position={[-7, -8, 0]}

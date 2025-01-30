@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 
-export default function Lumos() {
+export default function LumosMenu() {
   const lightRef = useRef(null);
   const [inputMoved, setInputMoved] = useState(false);
   const [inputPos, setInputPos] = useState({ x: 0, y: 0 });
@@ -12,9 +12,9 @@ export default function Lumos() {
 
     if (lightRef.current) {
       gsap.to(lightRef.current.position, {
-        x: posX,
+        x: posX + 43.5,
         y: posY,
-        z: 3.5,
+        z: 50,
         duration: 2.5,
         ease: "power2",
       });
@@ -53,7 +53,7 @@ export default function Lumos() {
   return (
     <pointLight
       ref={lightRef}
-      position={[0, 0, 3.5]}
+      position={[43.5, 0, 50]}
       castShadow
       intensity={25}
       shadow-mapSize={[2048, 2048]}

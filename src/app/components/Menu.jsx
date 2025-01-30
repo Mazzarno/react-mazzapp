@@ -3,72 +3,30 @@ import { motion } from "framer-motion-3d";
 import { Gltf, Float } from "@react-three/drei";
 import { useState } from "react";
 import { useThree } from "@react-three/fiber";
-import { useFrame } from "@react-three/fiber";
 import { useCamera } from "./CameraContext";
 import { useLumos } from "./LumosContext";
 import Font2Letter from "./Font2Letter";
 import gsap from "gsap";
+import * as THREE from "three";
 
 export default function Menu() {
   const floatSpeed = 2;
   const floatRotationIntensity = 0.1;
   const floatIntensities = 10;
   const floatRange = [-0.01, 0.01];
-  const [lightActive, setLightActive] = useState(true);
-  const { camera } = useThree();
-  const { lightRef } = useLumos();
-  useFrame(() => {
-    if (lightRef.current) {
-      lightRef.current.visible = lightActive;
-    }
-  });
 
+  const { camera } = useThree();
   const { triggerStartupAnimation } = useCamera();
-  const handleToggleLight = () => {
-    setLightActive((prev) => !prev);
-  };
 
   const returnScene = () => {
-    const { setTrackMouse } = useLumos();
-
-    const tl = gsap.timeline();
-    tl.to(camera.position, {
+    triggerStartupAnimation();
+    gsap.to(camera.position, {
       z: 20,
-      duration: 2,
-      ease: "power2.inOut",
-      onUpdate: () => camera.updateMatrixWorld(),
-    })
-      .to(
-        camera.rotation,
-        {
-          y: 0,
-          duration: 2,
-          ease: "power2.inOut",
-        },
-        "<"
-      )
-      .to(
-        lightRef.current.position,
-        {
-          x: 0,
-          y: 0,
-          z: 3.5,
-          duration: 2,
-          ease: "power2.inOut",
-          onUpdate: () => lightRef.current.updateMatrixWorld(),
-        },
-        "<"
-      )
-      .to(
-        lightRef.current,
-        {
-          intensity: 25,
-          duration: 2,
-          ease: "power2.inOut",
-          onComplete: () => setTrackMouse(true), // Réactive le suivi
-        },
-        "<"
-      );
+    });
+
+    gsap.to(camera.rotation, {
+      y: 0,
+    });
   };
   return (
     <>
