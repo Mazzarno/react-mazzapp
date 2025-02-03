@@ -1,20 +1,23 @@
 import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
+import * as THREE from "three";
+import { useThree } from "@react-three/fiber";
 
 export default function LumosMenu() {
   const lightRef = useRef(null);
   const [inputMoved, setInputMoved] = useState(false);
   const [inputPos, setInputPos] = useState({ x: 0, y: 0 });
-
+  const { camera } = useThree();
   const updatePosition = (x, y) => {
-    const posX = (x / window.innerWidth) * 30 - 15;
+    const posX =
+      ((x / window.innerWidth) * 30 - 15) * Math.cos(camera.rotation.y) -
+      (y / window.innerHeight) * 10 * Math.sin(camera.rotation.y);
     const posY = -(y / window.innerHeight) * 10 + 5;
 
     if (lightRef.current) {
       gsap.to(lightRef.current.position, {
-        x: posX + 43.5,
+        x: posX + 45,
         y: posY,
-        z: 50,
         duration: 2.5,
         ease: "power2",
       });
@@ -53,7 +56,7 @@ export default function LumosMenu() {
   return (
     <pointLight
       ref={lightRef}
-      position={[43.5, 0, 50]}
+      position={[48, 0, 45]}
       castShadow
       intensity={25}
       shadow-mapSize={[2048, 2048]}

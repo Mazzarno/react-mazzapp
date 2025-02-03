@@ -3,6 +3,7 @@ import { motion } from "framer-motion-3d";
 import { Gltf, Float } from "@react-three/drei";
 import { useState } from "react";
 import { useThree } from "@react-three/fiber";
+import { useRouter } from "next/navigation";
 import { useCamera } from "./CameraContext";
 import { useLumos } from "./LumosContext";
 import Font2Letter from "./Font2Letter";
@@ -17,7 +18,12 @@ export default function Menu() {
 
   const { camera } = useThree();
   const { triggerStartupAnimation } = useCamera();
+  const router = useRouter();
 
+  const goGame = () => {
+    triggerStartupAnimation();
+    router.push("/games");
+  };
   const returnScene = () => {
     triggerStartupAnimation();
     gsap.to(camera.position, {
@@ -109,6 +115,7 @@ export default function Menu() {
           scaleZ: 0.9,
           scaleX: 0.9,
         }}
+        onTap={() => goGame()}
       >
         <Float
           speed={floatSpeed}
