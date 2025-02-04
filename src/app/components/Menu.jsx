@@ -5,10 +5,9 @@ import { useState } from "react";
 import { useThree } from "@react-three/fiber";
 import { useRouter } from "next/navigation";
 import { useCamera } from "./CameraContext";
-import { useLumos } from "./LumosContext";
 import Font2Letter from "./Font2Letter";
 import gsap from "gsap";
-import * as THREE from "three";
+
 
 export default function Menu() {
   const floatSpeed = 2;
