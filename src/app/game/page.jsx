@@ -1,10 +1,14 @@
-"use client";
+export default function GamePage() {
+  return;
+}
+
+/* "use client";
 
 import { useState, useContext } from "react";
-import { GbaProvider, GbaContext } from "react-gbajs";
+import { GbaContext, GbaProvider } from "react-gbajs";
 import { motion } from "framer-motion-3d";
 import { Canvas } from "@react-three/fiber";
-import ReactGbaJs from "react-gbajs";
+import dynamic from "next/dynamic";
 import {
   PerspectiveCamera,
   Environment,
@@ -14,6 +18,10 @@ import {
 } from "@react-three/drei";
 import React from "react";
 import { useGLTF } from "@react-three/drei";
+
+const ReactGbaJs = dynamic(() => import("react-gbajs"), {
+  ssr: false,
+});
 
 function EmulatorInterface() {
   const { play } = useContext(GbaContext);
@@ -91,7 +99,7 @@ export default function MainScene() {
     <>
       <div className="screen_pc"></div>
       {/*<div className="scanlines"></div>
-        <div className="flicker"></div>*/}
+        <div className="flicker"></div>
 
       <div className="noisy"></div>
 
@@ -726,3 +734,4 @@ function Sp(props) {
 }
 
 useGLTF.preload("models/Sp.glb");
+*/
