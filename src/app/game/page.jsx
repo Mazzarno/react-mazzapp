@@ -3,9 +3,8 @@
 import { useState, useContext } from "react";
 import { GbaProvider, GbaContext } from "react-gbajs";
 import { motion } from "framer-motion-3d";
-import dynamic from "next/dynamic";
-import { useEffect } from "react";
-import { Canvas, useThree } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
+import ReactGbaJs from "react-gbajs";
 import {
   PerspectiveCamera,
   Environment,
@@ -13,16 +12,8 @@ import {
   OrbitControls,
   Html,
 } from "@react-three/drei";
-import React, { useRef } from "react";
+import React from "react";
 import { useGLTF } from "@react-three/drei";
-
-const ReactGbaJs = dynamic(
-  () => import("react-gbajs").then((mod) => mod.default),
-  {
-    ssr: false,
-    loading: () => <p>Chargement de l'émulateur...</p>,
-  }
-);
 
 function EmulatorInterface() {
   const { play } = useContext(GbaContext);
