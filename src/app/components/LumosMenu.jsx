@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { useThree } from "@react-three/fiber";
 
 export default function LumosMenu() {
+  /*
   const lightRef = useRef(null);
   const [inputMoved, setInputMoved] = useState(false);
   const [inputPos, setInputPos] = useState({ x: 0, y: 0 });
@@ -64,4 +65,6 @@ export default function LumosMenu() {
       shadow-camera-far={100}
     />
   );
+
+  */
 }
