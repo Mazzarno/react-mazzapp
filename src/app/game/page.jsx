@@ -46,7 +46,15 @@ function EmulatorInterface() {
       setError("Erreur lors de la lecture du fichier");
     }
   };
-
+  const testPkm = async () => {
+    try {
+      const response = await fetch("/gba/pkmfirered.gba");
+      const arrayBuffer = await response.arrayBuffer();
+      play({ newRomBuffer: new Uint8Array(arrayBuffer) });
+    } catch (err) {
+      setError("Erreur lors du chargement de la ROM");
+    }
+  };
   return (
     <div className="bg-white opacity-40">
       <label className="upload-label">
@@ -58,10 +66,10 @@ function EmulatorInterface() {
           className="file-input"
         />
       </label>
-
+      <button onClick={testPkm}>PKM</button>
       {error && <p className="error-message">{error}</p>}
 
-      <ReactGbaJs scale={1} />
+      <ReactGbaJs scale={1.6} />
     </div>
   );
 }
@@ -75,13 +83,27 @@ function GamePage() {
 }
 
 export default function MainScene() {
+  const { play } = useContext(GbaContext);
+
+  const insertPkm = async () => {
+    try {
+      // Chargement de la ROM depuis le serveur
+      const response = await fetch("/gba/pkmfirered.gba");
+      const arrayBuffer = await response.arrayBuffer();
+      play({ newRomBuffer: new Uint8Array(arrayBuffer) });
+    } catch (err) {
+      console.error("Erreur de chargement:", err);
+    }
+  };
+
   return (
     <>
       <div className="screen_pc"></div>
-      {/*      <div className="scanlines"></div>
+      {/*<div className="scanlines"></div>
         <div className="flicker"></div>*/}
 
       <div className="noisy"></div>
+
       <Canvas shadows>
         <ambientLight intensity={1} />
         <directionalLight intensity={1} position={[0, -20, 50]} />
@@ -100,16 +122,50 @@ export default function MainScene() {
           <meshToonMaterial color="#adb5bd" receiveShadow />
         </Plane>
         <Sp scale={1.6} position={[0, -6, 1]} />
-        {/*   <Html className="content" position={[0, 0, 5]} transform occlude>
+        <motion.group
+          whileTap={{
+            scaleZ: 0.9,
+          }}
+          whileHover={{
+            y: 0.9,
+          }}
+          onTap={() => insertPkm()}
+        >
+          <CartPkm scale={1.6} position={[16, 0, 0]} />
+        </motion.group>
+
+        <Html
+          className="content"
+          position={[0, 5, 5]}
+          rotation={[0.067, 0, 0]}
+          transform
+          occlude
+        >
           <div className="wrapper">
             <GamePage></GamePage>
           </div>
-        </Html> */}
+        </Html>
         <color attach="background" args={["#e9ecef"]} />
       </Canvas>
     </>
   );
 }
+
+function CartPkm(props) {
+  const { nodes, materials } = useGLTF("models/cartridge-pkm.glb");
+  return (
+    <group {...props} dispose={null}>
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Cartridge_geo_Cartridge_MAT_0.geometry}
+        material={materials.Cartridge_MAT}
+      />
+    </group>
+  );
+}
+
+useGLTF.preload("models/cartridge-pkm.glb");
 
 function Sp(props) {
   const { nodes, materials } = useGLTF("models/Sp.glb");
@@ -600,19 +656,7 @@ function Sp(props) {
                     />
                   </group>
                   <group name="Screen_grp">
-                    <motion.group name="Screen_geo">
-                      <Html
-                        className="content"
-                        position={[0, 2.5, -8]}
-                        rotation={[Math.PI / -2, 0, 0]}
-                        transform
-                        occlude
-                      >
-                        <div className="wrapper">
-                          <GamePage></GamePage>
-                        </div>
-                      </Html>
-                    </motion.group>
+                    <motion.group name="Screen_geo"></motion.group>
                     <group name="ScreenCover_geo">
                       <mesh
                         name="ScreenCover_geo_ScreenGlass_MAT_0"

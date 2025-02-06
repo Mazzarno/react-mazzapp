@@ -8,7 +8,6 @@ import { useCamera } from "./CameraContext";
 import Font2Letter from "./Font2Letter";
 import gsap from "gsap";
 
-
 export default function Menu() {
   const floatSpeed = 2;
   const floatRotationIntensity = 0.1;

@@ -39,10 +39,9 @@ function MainScene() {
 
   return (
     <>
-      <div className="screen_pc"></div>
-      {/*      <div className="scanlines"></div>
-      <div className="flicker"></div>*/}
-
+      <div className="soni"></div>
+      <div className="scanlines"></div>
+      <div className="flicker"></div>
       <div className="noisy"></div>
       <Canvas shadows>
         <ambientLight intensity={2} />

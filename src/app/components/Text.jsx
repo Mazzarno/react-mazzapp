@@ -4,7 +4,6 @@ import { motion } from "framer-motion-3d";
 import { useState } from "react";
 import gsap from "gsap";
 import { useThree } from "@react-three/fiber";
-
 import { useCamera } from "./CameraContext";
 import { useLumos } from "./LumosContext";
 import Font1Letter from "./Font1Letter";
@@ -15,7 +14,7 @@ export default function Text() {
       <group position={[-0.2, 1.3, 0]}>
         <AlexisGermain />
         <FloatingLetter />
-        <PressStart />
+        {/*<PressStart />*/}
       </group>
     </>
   );
