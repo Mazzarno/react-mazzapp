@@ -14,7 +14,7 @@ export default function Text() {
       <group position={[-0.2, 1.3, 0]}>
         <AlexisGermain />
         <FloatingLetter />
-        {/*<PressStart />*/}
+        <PressStart />
       </group>
     </>
   );
@@ -219,7 +219,6 @@ function PressStart() {
     gsap.to(camera.position, {
       z: 50,
     });
-
     gsap.to(camera.rotation, {
       y: Math.PI / -2,
     });

@@ -1,152 +1,124 @@
-export default function GamePage() {
-  return;
-}
+"use client";
 
-/* "use client";
-
-import { useState, useContext } from "react";
-import { GbaContext, GbaProvider } from "react-gbajs";
+import { useState, useContext, useCallback, useEffect, useRef } from "react";
 import { motion } from "framer-motion-3d";
 import { Canvas } from "@react-three/fiber";
-import dynamic from "next/dynamic";
 import {
   PerspectiveCamera,
   Environment,
   Plane,
   OrbitControls,
   Html,
+  useGLTF,
 } from "@react-three/drei";
 import React from "react";
-import { useGLTF } from "@react-three/drei";
+import gsap from "gsap";
 
-const ReactGbaJs = dynamic(() => import("react-gbajs"), {
-  ssr: false,
-});
-
-function EmulatorInterface() {
-  const { play } = useContext(GbaContext);
+function EmulatorInterface({ setLoadPokemonRom }) {
+  const [gbaModule, setGbaModule] = useState(null);
   const [error, setError] = useState("");
+  useEffect(() => {
+    const importGbaModule = async () => {
+      const {
+        default: ReactGbaJs,
+        GbaContext,
+        GbaProvider,
+      } = await import("react-gbajs");
+      setGbaModule({ ReactGbaJs, GbaContext, GbaProvider });
+    };
 
-  const handleFileUpload = async (e) => {
-    const file = e.target.files?.[0];
+    importGbaModule();
+  }, []);
 
-    if (!file) return;
+  if (!gbaModule) {
+    return <p>Loading ReactGbaJs...</p>;
+  }
 
-    if (!file.name.endsWith(".gba")) {
-      setError("Veuillez sélectionner un fichier .gba valide");
-      return;
-    }
-
-    try {
-      const arrayBuffer = await file.arrayBuffer();
-      play({ newRomBuffer: new Uint8Array(arrayBuffer) });
-      setError("");
-    } catch (err) {
-      setError("Erreur lors de la lecture du fichier");
-    }
-  };
-  const testPkm = async () => {
+  return (
+    <gbaModule.GbaProvider>
+      <EmulatorDisplay
+        setLoadPokemonRom={setLoadPokemonRom}
+        gbaModule={gbaModule}
+      />
+    </gbaModule.GbaProvider>
+  );
+}
+function EmulatorDisplay({ setLoadPokemonRom, gbaModule }) {
+  const { play } = useContext(gbaModule.GbaContext);
+  const loadPokemonRom = useCallback(async () => {
     try {
       const response = await fetch("/gba/pkmfirered.gba");
       const arrayBuffer = await response.arrayBuffer();
       play({ newRomBuffer: new Uint8Array(arrayBuffer) });
-    } catch (err) {
-      setError("Erreur lors du chargement de la ROM");
+      setError("");
+    } catch (err) {}
+  }, [play]);
+  useEffect(() => {
+    if (setLoadPokemonRom) {
+      setLoadPokemonRom(() => loadPokemonRom);
     }
-  };
-  return (
-    <div className="bg-white opacity-40">
-      <label className="upload-label">
-        Sélectionner une ROM GBA
-        <input
-          type="file"
-          accept=".gba"
-          onChange={handleFileUpload}
-          className="file-input"
-        />
-      </label>
-      <button onClick={testPkm}>PKM</button>
-      {error && <p className="error-message">{error}</p>}
-
-      <ReactGbaJs scale={1.6} />
-    </div>
-  );
+  }, [setLoadPokemonRom, loadPokemonRom]);
+  return <gbaModule.ReactGbaJs scale={1.71} />;
 }
 
-function GamePage() {
-  return (
-    <GbaProvider>
-      <EmulatorInterface />
-    </GbaProvider>
-  );
+function GamePage({ setLoadPokemonRom }) {
+  return <EmulatorInterface setLoadPokemonRom={setLoadPokemonRom} />;
 }
 
 export default function MainScene() {
-  const { play } = useContext(GbaContext);
-
-  const insertPkm = async () => {
-    try {
-      // Chargement de la ROM depuis le serveur
-      const response = await fetch("/gba/pkmfirered.gba");
-      const arrayBuffer = await response.arrayBuffer();
-      play({ newRomBuffer: new Uint8Array(arrayBuffer) });
-    } catch (err) {
-      console.error("Erreur de chargement:", err);
-    }
+  const [loadPokemonRom, setLoadPokemonRom] = useState(null);
+  const [isActivated, setIsActivated] = useState(false);
+  const pkmCart = useRef();
+  const movePkmInside = () => {
+    if (isActivated) return;
+    setIsActivated(true);
+    gsap.to(pkmCart.current.rotation, { x: Math.PI / -1, duration: 0.2 });
+    gsap.to(pkmCart.current.position, { x: 0, z: 2, delay: 0.2, duration: 1 });
+    gsap.to(pkmCart.current.position, {
+      x: 0,
+      y: -6.45,
+      z: 2,
+      delay: 1.4,
+      duration: 1,
+      onComplete: () => {
+        loadPokemonRom && loadPokemonRom();
+      },
+    });
   };
 
   return (
-    <>
-      <div className="screen_pc"></div>
-      {/*<div className="scanlines"></div>
-        <div className="flicker"></div>
+    <Canvas shadows>
+      <ambientLight intensity={1} />
+      <directionalLight intensity={1} position={[0, -20, 50]} />
+      <Environment preset="sunset" />
+      <PerspectiveCamera makeDefault position={[0, 0, 100]} fov={20} />
+      <OrbitControls />
+      <Plane receiveShadow args={[100, 100]} position={[0, 0, 0]}>
+        <meshToonMaterial color="#adb5bd" receiveShadow />
+      </Plane>
+      <Sp scale={1.6} position={[0, -6, 1]} />
+      <motion.group
+        ref={pkmCart}
+        onTap={isActivated ? undefined : movePkmInside}
+        position={[16, -12, 2]}
+      >
+        <CartPkm scale={1.6} />
+      </motion.group>
 
-      <div className="noisy"></div>
+      <Html
+        className="content"
+        position={[0, 6.88, 5]}
+        rotation={[0.067, 0, 0]}
+        transform
+        occlude
+      >
+        <div className="wrapper">
+          <GamePage setLoadPokemonRom={setLoadPokemonRom} />
+        </div>
+      </Html>
 
-      <Canvas shadows>
-        <ambientLight intensity={1} />
-        <directionalLight intensity={1} position={[0, -20, 50]} />
-        <Environment preset="sunset" />
-        <PerspectiveCamera makeDefault position={[0, 0, 100]} fov={20} />
-        <OrbitControls />
-        <Plane receiveShadow args={[100, 100]} position={[0, 0, 0]}>
-          <meshToonMaterial color="#adb5bd" receiveShadow />
-        </Plane>
-        <Plane
-          receiveShadow
-          args={[100, 100]}
-          position={[50, 0, 50]}
-          rotation={[0, Math.PI / -2, 0]}
-        >
-          <meshToonMaterial color="#adb5bd" receiveShadow />
-        </Plane>
-        <Sp scale={1.6} position={[0, -6, 1]} />
-        <motion.group
-          whileTap={{
-            scaleZ: 0.9,
-          }}
-          whileHover={{
-            y: 0.9,
-          }}
-          onTap={() => insertPkm()}
-        >
-          <CartPkm scale={1.6} position={[16, 0, 0]} />
-        </motion.group>
-
-        <Html
-          className="content"
-          position={[0, 5, 5]}
-          rotation={[0.067, 0, 0]}
-          transform
-          occlude
-        >
-          <div className="wrapper">
-            <GamePage></GamePage>
-          </div>
-        </Html>
-        <color attach="background" args={["#e9ecef"]} />
-      </Canvas>
-    </>
+      <color attach="background" args={["#e9ecef"]} />
+    </Canvas>
   );
 }
 
@@ -659,8 +631,6 @@ function Sp(props) {
                     <group name="ScreenCover_geo">
                       <mesh
                         name="ScreenCover_geo_ScreenGlass_MAT_0"
-                        castShadow
-                        receiveShadow
                         geometry={
                           nodes.ScreenCover_geo_ScreenGlass_MAT_0.geometry
                         }
@@ -670,8 +640,6 @@ function Sp(props) {
                     <group name="ScreenGlass_geo">
                       <mesh
                         name="ScreenGlass_geo_ScreenGlass_MAT_0"
-                        castShadow
-                        receiveShadow
                         geometry={
                           nodes.ScreenGlass_geo_ScreenGlass_MAT_0.geometry
                         }
@@ -682,8 +650,6 @@ function Sp(props) {
                   <group name="ScreenGuard_geo">
                     <mesh
                       name="ScreenGuard_geo_Gameboy_1002_MAT_0"
-                      castShadow
-                      receiveShadow
                       geometry={
                         nodes.ScreenGuard_geo_Gameboy_1002_MAT_0.geometry
                       }
@@ -734,4 +700,3 @@ function Sp(props) {
 }
 
 useGLTF.preload("models/Sp.glb");
-*/

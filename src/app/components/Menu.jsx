@@ -20,7 +20,7 @@ export default function Menu() {
 
   const goGame = () => {
     triggerStartupAnimation();
-    router.push("/games");
+    router.push("/game");
   };
   const returnScene = () => {
     triggerStartupAnimation();
@@ -113,7 +113,7 @@ export default function Menu() {
           scaleZ: 0.9,
           scaleX: 0.9,
         }}
-        onTap={() => goGame()}
+        onTap={goGame}
       >
         <Float
           speed={floatSpeed}
